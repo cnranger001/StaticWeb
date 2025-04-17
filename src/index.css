@@ -1,0 +1,139 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.tabs-container {
+  margin-top: 20px;
+}
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tabs button.active {
+  border-bottom: 2px solid #3f51b5;
+  color: #3f51b5;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.payment-form {
+  max-width: 500px;
+}
+
+.payment-form div {
+  margin-bottom: 15px;
+}
+
+.payment-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.payment-form input,
+.payment-form select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+button {
+  padding: 8px 15px;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+button:hover {
+  background-color: #303f9f;
+}
+
+.payment-list {
+  margin-top: 20px;
+}
+
+.payment-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.status-pending {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.status-manager-approved {
+  color: #2196f3;
+  font-weight: bold;
+}
+
+.status-manager-rejected {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.status-vp-approved {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.status-vp-rejected {
+  color: #f44336;
+  font-weight: bold;
+}
