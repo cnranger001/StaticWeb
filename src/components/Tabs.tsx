@@ -1,4 +1,10 @@
 import React, { useState } from 'react'
+
+// Define the VPViewItem type
+type VPViewItem = {
+  department_name: string
+  cost_center_name: string
+}
 import { useAuth } from '../context/AuthContext'
 import PaymentForm from './Payment/PaymentForm'
 import PaymentList from './Payment/PaymentList'
@@ -46,15 +52,15 @@ const Tabs = () => {
               <>
                 <p>Departments:</p>
                 <ul>
-                  {vpview.map((item, index) => (
+                    {vpview?.map((item: VPViewItem, index: number) => (
                     <li key={index}>{item.department_name}</li>
-                  ))}
+                    ))}
                 </ul>
                 <p>Cost Centers:</p>
                 <ul>
-                  {vpview.map((item, index) => (
+                    {vpview?.map((item: VPViewItem, index: number) => (
                     <li key={index}>{item.cost_center_name}</li>
-                  ))}
+                    ))}
                 </ul>
               </>
             )}
