@@ -47,7 +47,7 @@ const PaymentForm = () => {
 
     const { error } = await supabase.from('payment_request').insert([{
       ...formData,
-      id: 'pr006',
+      id: crypto.randomUUID(),
       status: 'pending',
       creator_id: user?.id,
       approving_manager_id: manager?.id,
