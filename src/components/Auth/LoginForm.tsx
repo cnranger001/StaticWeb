@@ -38,7 +38,7 @@ const LoginForm = () => {
             required
           />
         </div>
-        <button type="submit">Loginnnnn</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   )
