@@ -52,11 +52,12 @@ const LoginForm = () => {
         required
         />
       </div>
+      </div>
       <button type="submit">Login</button>
       </form>
       <div className="visitor-info">
       <h3>Visitor Information</h3>
-       {await fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => data.ip)}</p>
+      <p>IP Address: {visitorIp}</p>
       <p>Browser: {navigator.userAgent}</p>
       <p>Platform: {navigator.platform}</p>
       </div>
