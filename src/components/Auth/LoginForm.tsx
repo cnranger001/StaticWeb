@@ -18,28 +18,34 @@ const LoginForm = () => {
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        {error && <div className="error">{error}</div>}
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
+      <h2>Login</h2>
+      {error && <div className="error">{error}</div>}
+      <div>
+        <label>Email:</label>
+        <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        />
+      </div>
+      <button type="submit">Login</button>
       </form>
+      <div className="visitor-info">
+      <h3>Visitor Information</h3>
+      <p>IP Address: {window.location.hostname}</p>
+      <p>Browser: {navigator.userAgent}</p>
+      <p>Platform: {navigator.platform}</p>
+      </div>
     </div>
   )
 }
