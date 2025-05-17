@@ -2,6 +2,20 @@ import React, { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 
 const LoginForm = () => {
+  const [visitorIp, setVisitorIp] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchIp = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        setVisitorIp(data.ip);
+      } catch (error) {
+        console.error('Failed to fetch IP address:', error);
+      }
+    };
+    fetchIp();
+  }, []);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -28,7 +42,7 @@ const LoginForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
         />
-      </div>
+       <p>IP Address: {visitorIp}</p>
       <div>
         <label>Password:</label>
         <input
@@ -42,7 +56,7 @@ const LoginForm = () => {
       </form>
       <div className="visitor-info">
       <h3>Visitor Information</h3>
-      <p>IP Address: {window.location.hostname}</p>
+       {await fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => data.ip)}</p>
       <p>Browser: {navigator.userAgent}</p>
       <p>Platform: {navigator.platform}</p>
       </div>
