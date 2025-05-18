@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Layout, Typography, Tabs, Button, Row, Col, Image, Spin } from 'antd';
-import { CrownOutlined } from '@ant-design/icons';
 import { createClient } from '@supabase/supabase-js';
 import { useCandidateStore } from './store';
 import './index.scss';
