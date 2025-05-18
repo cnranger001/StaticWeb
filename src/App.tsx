@@ -72,7 +72,7 @@ const App = () => {
   };
 
   const getIP = async () => {
-    const res = await fetch('https://api64.ipify.org?format=json');
+    const res = await fetch('https://api.ipify.org?format=json');
     const json = await res.json();
     return json.ip;
   };
