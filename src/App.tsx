@@ -6,6 +6,9 @@ import './index.scss';
 
 const { Title, Text } = Typography;
 
+// Store voting_code as a global variable
+let globalVotingCode = '';
+
 const supabase = createClient(
   'https://rhbjcqgmeuyyipnstrpm.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoYmpjcWdtZXV5eWlwbnN0cnBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MDg1OTAsImV4cCI6MjA2MDA4NDU5MH0.xR-pVUEbmYVi97mqgUgqabff8cTNEjI1xUblL5Loi50'
@@ -24,7 +27,7 @@ const App = () => {
   const [ip, setIp] = useState<string>('');
 
   useEffect(() => {
-    getIP().then(setIp);
+   // getIP().then(setIp);
     fetchCandidates();
     fetchVoteStatus();
    // const interval = setInterval(() => updateVoteCounts(), 3000);
@@ -65,35 +68,84 @@ const App = () => {
   };
 
   const fetchVoteStatus = async () => {
-    const ip = await getIP();
-    const { data } = await supabase.from('votes').select('*').eq('ip', ip);
+    //const ip = await getIP();
+    const { data } = await supabase.from('votes').select('*').eq('ip', globalVotingCode);
     
     setVoteStatus(data !== null && data.length > 0);
   };
 
-  const getIP = async () => {
-    const res = await fetch('https://api.ipify.org?format=json');
-    const json = await res.json();
-    return json.ip;
-  };
+  // const getIP = async () => {
+  //   const res = await fetch('https://api.ipify.org?format=json');
+  //   const json = await res.json();
+  //   return json.ip;
+  // };
 
   const getBrowser = () => {
     return navigator.userAgent;
   };
 
-  const handleVote = async (candidate_id: number) => {
-    const ip = await getIP();
+  const handleVote = async (candidate_id: number, voting_code: string) => {
+    globalVotingCode = voting_code;
     const browser = getBrowser();
-    await supabase.from('votes').insert([{ candidate_id, ip, browser }]);
+    
+    if (!voting_code) {
+      alert('Please enter your voting code.');
+      return;
+    }
+
+    // Check if voting_code exists in voters table (md5_hash column)
+    const { data: voter, error: voterError } = await supabase
+      .from('voters')
+      .select('*')
+      .eq('md5_hash', voting_code)
+      .single();
+
+    if (voterError || !voter) {
+      alert('Invalid voting code. Please check your code and try again.');
+      return;
+    }
+
+    const voter_name = voter.name;
+
+    // Check if voting_code already used in votes table (ip column)
+    const { data: existingVote, error: voteError } = await supabase
+      .from('votes')
+      .select('*')
+      .eq('ip', voter_name)
+      .maybeSingle();
+
+     if (voteError) {
+       console.log(voteError)
+       alert(voteError.message);
+       return;
+     }
+
+    if (existingVote) {
+      alert( voting_code + ' has already been used.');
+      return;
+    }
+
+    await supabase.from('votes').insert([{ candidate_id, ip: voter_name, browser }]);
     await fetchVoteStatus();
     await updateVoteCounts();
+
+    alert('Hello ' + voter_name + ', thanks for the vote!');
   };
 
   return (
     <Layout className="app-layout">
       <div className="banner">
         <Title>Welcome to the Voting App</Title>
-        <Text>Your IP: {ip} <br/> Browser Info: {getBrowser()}</Text>
+        <Text>Your Voting Code:           
+           <div style={{ marginBottom: 16 }}>
+                    <input
+                      id = "voting-code"
+                      type="text"
+                      placeholder="Enter your voting code"
+                      style={{ width: '50%', padding: 2, fontSize: 16 }}
+                    />
+                    </div>          
+           <br/> Browser Info: {getBrowser()}</Text>
       </div>
       {candidates.length === 0 ? (
         <Spin />
@@ -126,13 +178,17 @@ const App = () => {
                     })}
                 </Col>
                 <Col span={12}>
-                  <Button
+                   
+                    <Button
                     type="primary"
                     disabled={voteStatus}
-                    onClick={() => handleVote(c.id)}
-                  >
+                    onClick={() => {
+                      const code = (document.getElementById('voting-code') as HTMLInputElement | null)?.value || '';
+                      handleVote(c.id, code);
+                    }}
+                    >
                     {voteStatus ? 'Voted' : 'Vote'}
-                  </Button>
+                    </Button>
                   <div className="prompt-text">
                     <iframe
                       src={`https://rhbjcqgmeuyyipnstrpm.supabase.co/functions/v1/serve-txt?file=${c.first_name}_${c.last_name}_prompt.txt`}
